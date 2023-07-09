@@ -12,9 +12,12 @@ class MyListView extends StatefulWidget {
 }
 
 class _MyListViewState extends State<MyListView> {
-  List<String> myList = ["Mango", "Apple", "Banana", "Jackfruit"];
-  List<String> myListPrice = ["200", "300", "10", "60"];
-  List<String> myListImage = ["asset/plus.png", "asset/minus.png", "asset/plus.png", "asset/minus.png"];
+  List<String> myList = [];
+  List<String> myListPrice = [];
+  String plus = "asset/plus.png";
+  String minus = "asset/minus.png";
+  String name = "";
+  String age = "";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,37 +27,90 @@ class _MyListViewState extends State<MyListView> {
           title: Text("My Numeric List"),
         ),
         body: Container(
-            child: ListView.builder(
-          itemCount: myList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Container(
-                    color: Colors.greenAccent,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+            child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: myList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text(
-                          myList[index],
-                          style: TextStyle(fontSize: 30, color: Colors.red),
+                        Container(
+                          color: Colors.greenAccent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                myList[index],
+                                style:
+                                    TextStyle(fontSize: 30, color: Colors.red),
+                              ),
+                              Text(
+                                myListPrice[index],
+                                style: TextStyle(
+                                    fontSize: 30, color: Colors.black54),
+                              ),
+                              Image.asset(myList[index] == "plus"?plus:minus,height: 50,width: 50,)
+                            ],
+                          ),
                         ),
-                        Text(
-                          myListPrice[index],
-                          style: TextStyle(fontSize: 30, color: Colors.black54),
+                        SizedBox(
+                          height: 20,
                         ),
-                        Image.asset(myListImage[index],width: 50,height: 50,)
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  )
-                ],
+                  );
+                },
               ),
-            );
-          },
+            ),
+            Column(
+              children: [
+                TextFormField(
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.person),
+                    hintText: 'What do people call you?',
+                    labelText: 'Name',
+                  ),
+                  onChanged: (value) {
+                    name = value;
+                    setState(() {
+
+                    });
+                  },
+                ),
+                TextFormField(
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.person),
+                      hintText: 'What is your age?',
+                      labelText: 'Age',
+                    ),
+                    onChanged: (typed) {
+                      age = typed;
+                      setState(() {
+
+                      });
+                    }),
+                GestureDetector(
+                  onTap: (){
+                    myList.add(name);
+                    myListPrice.add(age);
+                    setState(() {
+
+                    });
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 100,
+                    color: Colors.red,
+                    child: Center(child: Text("ADD")),
+                  ),
+                )
+              ],
+            )
+          ],
         )),
       ),
     );
